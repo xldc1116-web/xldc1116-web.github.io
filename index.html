@@ -137,7 +137,6 @@ textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 2px rgb
       <li>分类标题（如 <code>一、选择题</code>）不修改</li>
       <li>标签内题号（【答案】【难度】【来源】等）不修改</li>
       <li>材料题无大题号时，在材料前添加【题干】</li>
-      <li><code>%</code> 自动转换为 <code>\%</code>（LaTeX 转义）</li>
       <li>输出为新文档，原文件不受影响</li>
     </ul>
   </div>
@@ -330,8 +329,7 @@ function processDocxXml(xmlStr) {
   }
 
   const outXml = new XMLSerializer().serializeToString(doc);
-  const finalXml = outXml.replace(/(?<!\\)%/g, '\\%');
-  return { xml: finalXml, replaced, qtagCount: (finalXml.match(/【题干】/g) || []).length, logs };
+  return { xml: outXml, replaced, qtagCount: (outXml.match(/【题干】/g) || []).length, logs };
 }
 
 async function processDocxFile(file) {
